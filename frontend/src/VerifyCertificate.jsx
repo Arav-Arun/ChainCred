@@ -181,38 +181,38 @@ export default function VerifyCertificate() {
               <p className="text-sm font-semibold text-green-400 mb-1">
                 ✓ Valid Certificate
               </p>
-              <p className="text-xs text-[#666] mb-3">
+              <p className="text-xs text-white mb-3">
                 This hash exists on the blockchain and has not been revoked.
               </p>
 
               {result.details && (
                 <div className="mb-3 space-y-1.5 border-l-2 border-green-500/30 pl-3">
                   <p className="text-sm text-white">
-                    <span className="text-[#888] text-xs uppercase mr-2">
+                    <span className="text-white text-xs uppercase mr-2">
                       Student:
                     </span>{" "}
                     {result.details.studentName}
                   </p>
                   <p className="text-sm text-white">
-                    <span className="text-[#888] text-xs uppercase mr-2">
+                    <span className="text-white text-xs uppercase mr-2">
                       Degree:
                     </span>{" "}
                     {result.details.courseName}
                   </p>
                   <p className="text-sm text-white">
-                    <span className="text-[#888] text-xs uppercase mr-2">
+                    <span className="text-white text-xs uppercase mr-2">
                       Issued By:
                     </span>{" "}
                     {result.details.issuedBy}
                   </p>
                   <p className="text-sm text-white">
-                    <span className="text-[#888] text-xs uppercase mr-2">
+                    <span className="text-white text-xs uppercase mr-2">
                       Date:
                     </span>{" "}
                     {result.details.issuedDate}
                   </p>
                   <p
-                    className="text-xs text-[#555] truncate mt-1"
+                    className="text-xs text-white truncate mt-1"
                     title={result.details.issuer}
                   >
                     Issuer Address: {result.details.issuer}
@@ -220,7 +220,7 @@ export default function VerifyCertificate() {
                 </div>
               )}
 
-              <p className="text-[10px] font-mono text-[#555] break-all">
+              <p className="text-[10px] font-mono text-white break-all">
                 {result.hash}
               </p>
             </div>
@@ -229,10 +229,10 @@ export default function VerifyCertificate() {
               <p className="text-sm font-semibold text-yellow-400 mb-1">
                 ✗ Not Found
               </p>
-              <p className="text-xs text-[#666] mb-2">
+              <p className="text-xs text-white mb-2">
                 No matching certificate on the blockchain.
               </p>
-              <p className="text-xs font-mono text-[#888] break-all">
+              <p className="text-xs font-mono text-white break-all">
                 {result.hash}
               </p>
             </div>
@@ -240,7 +240,7 @@ export default function VerifyCertificate() {
 
           <button
             onClick={reset}
-            className="w-full mt-3 py-2 rounded border border-[#262626] text-xs text-[#666] hover:text-white hover:border-[#333] transition-colors"
+            className="w-full mt-3 py-2 rounded border border-[#262626] text-xs text-white hover:text-white hover:border-[#333] transition-colors"
           >
             Check Another
           </button>

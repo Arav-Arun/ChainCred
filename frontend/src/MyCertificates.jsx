@@ -77,7 +77,7 @@ export default function MyCertificates() {
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="page-header">My Certificates</h1>
-          <p className="text-sm text-[#666]">
+          <p className="text-sm text-white">
             {loading
               ? "Loading from blockchain..."
               : `${certs.length} certificate${certs.length !== 1 ? "s" : ""} found`}
@@ -86,7 +86,7 @@ export default function MyCertificates() {
         <button
           onClick={fetchCerts}
           disabled={loading}
-          className="px-3 py-1.5 rounded border border-[#262626] text-xs text-[#666] hover:text-white hover:border-[#333] transition-colors disabled:opacity-40"
+          className="px-3 py-1.5 rounded border border-[#262626] text-xs text-white hover:text-white hover:border-[#333] transition-colors disabled:opacity-40"
         >
           {loading ? "Loading..." : "Refresh"}
         </button>

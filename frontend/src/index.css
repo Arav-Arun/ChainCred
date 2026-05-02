@@ -97,38 +97,38 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .hero-section { @apply relative z-10 flex flex-col items-center text-center px-4 sm:px-6 pt-20 sm:pt-36 pb-16 sm:pb-24; }
 .hero-title { @apply text-3xl sm:text-5xl md:text-7xl font-extrabold leading-[1.1] max-w-3xl mb-4 sm:mb-6; }
 .hero-subtitle-highlight { @apply font-['Playfair_Display'] italic text-white/90; }
-.hero-description { @apply text-sm sm:text-base text-gray-300 max-w-md leading-relaxed mb-8 sm:mb-10 px-2; }
+.hero-description { @apply text-sm sm:text-base text-white max-w-md leading-relaxed mb-8 sm:mb-10 px-2; }
 .hero-actions { @apply flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto px-4 sm:px-0; }
 
 /* Buttons */
 .btn-primary { @apply w-full sm:w-auto px-6 py-2.5 bg-white text-black text-sm font-semibold rounded hover:bg-white/90 transition-colors disabled:opacity-50; }
-.btn-secondary { @apply w-full sm:w-auto px-6 py-2.5 border border-[#333] text-sm rounded text-[#888] hover:text-white hover:border-[#555] transition-colors disabled:opacity-50; }
+.btn-secondary { @apply w-full sm:w-auto px-6 py-2.5 border border-[#333] text-sm rounded text-white hover:text-white hover:border-[#555] transition-colors disabled:opacity-50; }
 
 /* Stats */
 .stats-section { @apply relative z-10 border-y border-[#1a1a1a]; }
 .stats-grid { @apply max-w-4xl mx-auto grid grid-cols-2 sm:grid-cols-4 divide-x divide-[#1a1a1a]; }
 .stat-item { @apply py-4 sm:py-5 text-center; }
-.stat-value { @apply text-xs font-mono uppercase tracking-wider text-[#888]; }
-.stat-label { @apply text-[10px] uppercase tracking-widest text-[#444] mt-1; }
+.stat-value { @apply text-xs font-mono uppercase tracking-wider text-white; }
+.stat-label { @apply text-[10px] uppercase tracking-widest text-white mt-1; }
 
 /* How It Works */
 .how-it-works-section { @apply relative z-10 py-14 sm:py-20 px-4 sm:px-6; }
 .how-it-works-container { @apply max-w-4xl mx-auto; }
-.how-it-works-title { @apply text-xs uppercase tracking-widest text-[#555] text-center mb-8 sm:mb-10; }
+.how-it-works-title { @apply text-xs uppercase tracking-widest text-white text-center mb-8 sm:mb-10; }
 .how-it-works-grid { @apply grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5; }
 .step-card { @apply border border-[#1a1a1a] rounded-lg p-5 sm:p-6 bg-[#111]; }
-.step-number { @apply text-xl sm:text-2xl font-mono text-[#444] opacity-80; }
+.step-number { @apply text-xl sm:text-2xl font-mono text-white opacity-80; }
 .step-title { @apply text-sm font-semibold mt-2 mb-2; }
-.step-desc { @apply text-xs text-[#555] leading-relaxed; }
+.step-desc { @apply text-xs text-white leading-relaxed; }
 
 /* Footer */
 .home-footer { @apply border-t border-[#1a1a1a] py-8 sm:py-10 px-4 sm:px-6; }
 .footer-container { @apply max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4; }
 .footer-brand { @apply flex items-center gap-2; }
 .footer-logo { @apply h-5 w-5 object-contain opacity-60; }
-.footer-text { @apply text-xs text-gray-300; }
+.footer-text { @apply text-xs text-white; }
 .footer-links { @apply flex items-center gap-4; }
-.footer-link { @apply text-xs text-gray-300 hover:text-white transition-colors; }
+.footer-link { @apply text-xs text-white hover:text-white transition-colors; }
 
 /* -------------------------------------
    App.jsx Semantic Classes
@@ -144,7 +144,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .desktop-nav { @apply hidden md:flex items-center gap-1; }
 .nav-btn { @apply px-3 py-1 text-xs font-medium uppercase tracking-wider transition-colors; }
 .nav-btn-active { @apply text-white; }
-.nav-btn-inactive { @apply text-[#555] hover:text-[#999]; }
+.nav-btn-inactive { @apply text-white hover:text-white; }
 
 .mobile-nav-container { @apply md:hidden border-t border-[#1a1a1a]; }
 .mobile-nav { @apply flex items-center justify-center gap-1 px-4 py-1.5; }
@@ -152,7 +152,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .wallet-btn-connect { @apply px-3 py-1.5 bg-white text-black text-[11px] font-semibold rounded hover:bg-white/90 transition-colors whitespace-nowrap; }
 .wallet-btn-wrong { @apply px-3 py-1.5 bg-[#ff4a4a] text-white text-[11px] font-semibold rounded hover:bg-[#ff4a4a]/90 transition-colors whitespace-nowrap; }
-.wallet-btn-account { @apply px-2.5 py-1.5 border border-[#333] rounded text-[11px] font-mono text-[#aaa] hover:text-white transition-colors bg-[#0a0a0a]; }
+.wallet-btn-account { @apply px-2.5 py-1.5 border border-[#333] rounded text-[11px] font-mono text-white hover:text-white transition-colors bg-[#0a0a0a]; }
 
 .app-main { @apply pt-[88px] md:pt-14; }
 .page-container { @apply max-w-lg mx-auto px-4 sm:px-6 py-8 sm:py-12; }
@@ -160,16 +160,16 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 /* Shared Form & Typography */
 .page-header { @apply text-2xl font-bold mb-1; }
 .page-header-success { @apply text-2xl font-bold mb-6; }
-.page-description { @apply text-sm text-[#666] mb-6; }
+.page-description { @apply text-sm text-white mb-6; }
 
 .form-card { @apply border border-[#262626] rounded-lg p-6 bg-[#111] space-y-4; }
-.form-label { @apply block text-xs text-[#666] mb-1.5 uppercase tracking-wider; }
+.form-label { @apply block text-xs text-white mb-1.5 uppercase tracking-wider; }
 .form-input { @apply w-full bg-[#0a0a0a] border border-[#262626] rounded px-3 py-2.5 text-sm text-white placeholder-[#444] focus:outline-none focus:border-[#444] disabled:opacity-40 transition-colors; }
 
 .detail-card { @apply bg-[#0a0a0a] border border-[#262626] rounded p-3; }
-.detail-label { @apply text-[10px] text-[#555] uppercase tracking-wider mb-1; }
-.detail-value { @apply text-xs text-[#ccc]; }
-.detail-hash { @apply text-xs font-mono text-[#aaa] break-all cursor-pointer hover:text-white transition-colors; }
+.detail-label { @apply text-[10px] text-white uppercase tracking-wider mb-1; }
+.detail-value { @apply text-xs text-white; }
+.detail-hash { @apply text-xs font-mono text-white break-all cursor-pointer hover:text-white transition-colors; }
 
 .link-btn-primary { @apply flex-1 py-2 rounded bg-[#1a1a1a] text-xs text-white hover:bg-[#222] text-center transition-colors; }
 .link-btn-secondary { @apply flex-1 text-center py-2 rounded bg-[#1a1a1a] text-xs text-blue-400 hover:bg-[#222] transition-colors; }
@@ -185,32 +185,32 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .tab-switcher { @apply flex mb-6 border border-[#262626] rounded bg-[#0a0a0a]; }
 .tab-btn { @apply flex-1 py-2 text-xs font-medium uppercase tracking-wider text-center transition-colors; }
 .tab-btn-active { @apply bg-[#111] text-white; }
-.tab-btn-inactive { @apply text-[#555] hover:text-[#999]; }
+.tab-btn-inactive { @apply text-white hover:text-white; }
 
 /* MyCertificates Layout */
 .cert-grid { @apply grid grid-cols-1 md:grid-cols-2 gap-5; }
 .cert-card { @apply border border-[#262626] rounded-lg p-5 bg-[#111] hover:border-[#444] transition-colors flex flex-col; }
 .cert-card-header { @apply flex justify-between items-start mb-4 pb-4 border-b border-[#262626]; }
 .cert-card-title { @apply text-lg font-bold mb-1; }
-.cert-card-course { @apply text-xs text-[#888] mb-1; }
-.cert-card-issuer { @apply text-[10px] text-[#555] font-mono; }
+.cert-card-course { @apply text-xs text-white mb-1; }
+.cert-card-issuer { @apply text-[10px] text-white font-mono; }
 .cert-card-date-box { @apply bg-[#0a0a0a] border border-[#262626] rounded p-2 text-center; }
-.cert-card-date-label { @apply text-[9px] uppercase tracking-wider text-[#555] mb-1; }
+.cert-card-date-label { @apply text-[9px] uppercase tracking-wider text-white mb-1; }
 .cert-card-date-value { @apply text-xs text-white; }
 .cert-card-footer { @apply mt-auto pt-4 border-t border-[#262626]; }
-.cert-card-hash { @apply text-[10px] font-mono text-[#555] truncate cursor-pointer hover:text-white transition-colors; }
+.cert-card-hash { @apply text-[10px] font-mono text-white truncate cursor-pointer hover:text-white transition-colors; }
 
 .badge-active { @apply px-1.5 py-0.5 rounded text-[10px] font-medium bg-green-500/10 text-green-400 border border-green-500/20; }
 .badge-revoked { @apply px-1.5 py-0.5 rounded text-[10px] font-medium bg-red-500/10 text-red-400 border border-red-500/20; }
-.badge-block { @apply text-[10px] text-[#444]; }
+.badge-block { @apply text-[10px] text-white; }
 
 .cert-links-container { @apply flex items-center justify-between mt-4; }
 .cert-link { @apply text-[10px] text-blue-400 hover:underline; }
-.cert-share-link { @apply text-[10px] text-[#888] hover:text-white transition-colors; }
+.cert-share-link { @apply text-[10px] text-white hover:text-white transition-colors; }
 
 .revoke-container { @apply mt-4 pt-4 border-t border-[#1a1a1a]; }
 .btn-revoke { @apply px-3 py-1.5 rounded border border-red-500/20 text-xs text-red-400 hover:bg-red-500/5 transition-colors disabled:opacity-40; }
 
 .empty-state-card { @apply border border-[#262626] rounded-lg p-12 bg-[#111] text-center; }
-.empty-state-title { @apply text-sm text-[#666]; }
-.empty-state-subtitle { @apply text-xs text-[#444] mt-1; }
+.empty-state-title { @apply text-sm text-white; }
+.empty-state-subtitle { @apply text-xs text-white mt-1; }

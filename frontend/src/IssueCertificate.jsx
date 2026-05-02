@@ -167,7 +167,7 @@ export default function IssueCertificate() {
 
           <button
             onClick={reset}
-            className="w-full py-2.5 rounded border border-[#262626] text-sm text-[#888] hover:text-white transition-colors"
+            className="w-full py-2.5 rounded border border-[#262626] text-sm text-white hover:text-white transition-colors"
           >
             Issue Another
           </button>
@@ -184,7 +184,7 @@ export default function IssueCertificate() {
         <p className="text-sm text-red-400 mb-4">{error}</p>
         <button
           onClick={reset}
-          className="px-4 py-2 rounded border border-[#262626] text-sm text-[#888] hover:text-white transition-colors"
+          className="px-4 py-2 rounded border border-[#262626] text-sm text-white hover:text-white transition-colors"
         >
           Try Again
         </button>
@@ -218,7 +218,7 @@ export default function IssueCertificate() {
         ))}
 
         {status === "storing" && (
-          <p className="text-xs text-[#666]">
+          <p className="text-xs text-white">
             Confirm the transaction in your wallet...
           </p>
         )}
