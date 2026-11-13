@@ -21,3 +21,11 @@ export async function generateCertificateHash({
   const bytes = Array.from(new Uint8Array(buffer));
   return bytes.map((b) => b.toString(16).padStart(2, "0")).join("");
 }
+
+/**
+ * Public link that opens the Verify page and checks this hash automatically.
+ * Used for the QR codes and the "Copy Share Link" buttons.
+ */
+export function getVerifyLink(hash) {
+  return `${window.location.origin}/?tab=verify&hash=${encodeURIComponent(hash)}`;
+}

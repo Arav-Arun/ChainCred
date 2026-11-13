@@ -9,6 +9,7 @@ import { useState, useEffect } from "react";
 import {
   verifyCertificateOnChain,
   getCertificateDetailsByHash,
+  isRevokedOnChain,
 } from "./blockchain";
 import { generateCertificateHash } from "./hashUtils";
 
@@ -67,10 +68,13 @@ export default function VerifyCertificate() {
     try {
       const isValid = await verifyCertificateOnChain(hash);
       let details = null;
+      let revoked = false;
       if (isValid) {
         details = await getCertificateDetailsByHash(hash);
+      } else {
+        revoked = await isRevokedOnChain(hash);
       }
-      setResult({ valid: isValid, hash, details });
+      setResult({ valid: isValid, revoked, hash, details });
     } catch (err) {
       setResult({ error: err.message });
     } finally {
@@ -221,6 +225,19 @@ export default function VerifyCertificate() {
               )}
 
               <p className="text-[10px] font-mono text-white break-all">
+                {result.hash}
+              </p>
+            </div>
+          ) : result.revoked ? (
+            <div className="result-card-error">
+              <p className="text-sm font-semibold text-red-400 mb-1">
+                ✗ Revoked
+              </p>
+              <p className="text-xs text-white mb-2">
+                This certificate was issued on the blockchain but has since
+                been revoked by its issuer. It is no longer valid.
+              </p>
+              <p className="text-xs font-mono text-white break-all">
                 {result.hash}
               </p>
             </div>

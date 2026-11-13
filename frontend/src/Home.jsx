@@ -103,12 +103,12 @@ export default function Home({ onNavigate }) {
           {/* Right - links */}
           <div className="footer-links">
             <a
-              href="https://aravarun.xyz"
+              href="https://aravarun.in"
               target="_blank"
               rel="noreferrer"
               className="footer-link"
             >
-              aravarun.xyz ↗
+              aravarun.in ↗
             </a>
             <a
               href={

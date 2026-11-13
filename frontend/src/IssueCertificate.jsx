@@ -7,10 +7,11 @@
  */
 
 import { useState } from "react";
-import { useAccount } from "wagmi";
+import { useAccount, useSwitchChain } from "wagmi";
 import { QRCodeSVG } from "qrcode.react";
 import { storeCertificateOnChain } from "./blockchain";
-import { generateCertificateHash } from "./hashUtils";
+import { generateCertificateHash, getVerifyLink } from "./hashUtils";
+import { TARGET_CHAIN } from "./wagmiConfig";
 
 const FIELDS = [
   {
@@ -42,7 +43,9 @@ const EMPTY_FORM = {
 };
 
 export default function IssueCertificate() {
-  const { isConnected } = useAccount();
+  const { isConnected, chainId } = useAccount();
+  const { switchChain, isPending: switching } = useSwitchChain();
+  const wrongNetwork = isConnected && chainId !== TARGET_CHAIN.id;
   const [form, setForm] = useState(EMPTY_FORM);
   const [status, setStatus] = useState("idle"); // idle | storing | done | error
   const [hash, setHash] = useState("");
@@ -115,7 +118,7 @@ export default function IssueCertificate() {
           {/* QR Code */}
           <div className="flex justify-center">
             <div className="bg-white p-3 rounded-lg">
-              <QRCodeSVG value={hash} size={120} level="M" />
+              <QRCodeSVG value={getVerifyLink(hash)} size={120} level="M" />
             </div>
           </div>
 
@@ -155,8 +158,7 @@ export default function IssueCertificate() {
             )}
             <button
               onClick={() => {
-                const url = `${window.location.origin}/?tab=verify&hash=${hash}`;
-                navigator.clipboard.writeText(url);
+                navigator.clipboard.writeText(getVerifyLink(hash));
                 alert("Share link copied!");
               }}
               className="link-btn-primary"
@@ -217,6 +219,23 @@ export default function IssueCertificate() {
           </div>
         ))}
 
+        {wrongNetwork && (
+          <div className="result-card-invalid">
+            <p className="text-xs text-yellow-400 mb-2">
+              Your wallet is on the wrong network. Certificates can only be
+              issued on {TARGET_CHAIN.name}.
+            </p>
+            <button
+              type="button"
+              onClick={() => switchChain({ chainId: TARGET_CHAIN.id })}
+              disabled={switching}
+              className="btn-secondary"
+            >
+              {switching ? "Switching..." : `Switch to ${TARGET_CHAIN.name}`}
+            </button>
+          </div>
+        )}
+
         {status === "storing" && (
           <p className="text-xs text-white">
             Confirm the transaction in your wallet...
@@ -225,7 +244,7 @@ export default function IssueCertificate() {
 
         <button
           type="submit"
-          disabled={status === "storing"}
+          disabled={status === "storing" || wrongNetwork}
           className="btn-primary w-full"
         >
           {status === "storing" ? "Waiting for wallet..." : "Issue Certificate"}

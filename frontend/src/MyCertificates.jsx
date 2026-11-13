@@ -11,11 +11,13 @@ import {
   verifyCertificateOnChain,
   revokeCertificateOnChain,
 } from "./blockchain";
+import { getVerifyLink } from "./hashUtils";
 
 export default function MyCertificates() {
   const { address, isConnected } = useAccount();
   const [certs, setCerts] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const [revoking, setRevoking] = useState(null);
 
   useEffect(() => {
@@ -24,6 +26,7 @@ export default function MyCertificates() {
 
   const fetchCerts = async () => {
     setLoading(true);
+    setError("");
     try {
       const events = await getIssuedCertificates(address);
 
@@ -38,6 +41,8 @@ export default function MyCertificates() {
       setCerts(enriched);
     } catch (err) {
       console.error("Failed to fetch certificates:", err);
+      setCerts([]);
+      setError(err.message || "Failed to load certificates.");
     } finally {
       setLoading(false);
     }
@@ -80,7 +85,9 @@ export default function MyCertificates() {
           <p className="text-sm text-white">
             {loading
               ? "Loading from blockchain..."
-              : `${certs.length} certificate${certs.length !== 1 ? "s" : ""} found`}
+              : error
+                ? "Could not load certificates"
+                : `${certs.length} certificate${certs.length !== 1 ? "s" : ""} found`}
           </p>
         </div>
         <button
@@ -92,8 +99,18 @@ export default function MyCertificates() {
         </button>
       </div>
 
+      {/* Error state */}
+      {!loading && error && (
+        <div className="result-card-error">
+          <p className="text-sm text-red-400">{error}</p>
+          <p className="text-xs text-white mt-1">
+            Press Refresh to try again.
+          </p>
+        </div>
+      )}
+
       {/* Empty state */}
-      {!loading && certs.length === 0 && (
+      {!loading && !error && certs.length === 0 && (
         <div className="empty-state-card">
           <p className="empty-state-title">
             No certificates found on-chain for this wallet.
@@ -133,7 +150,7 @@ export default function MyCertificates() {
 
               {/* QR Code */}
               <div className="bg-white inline-block p-1.5 rounded">
-                <QRCodeSVG value={cert.hash} size={64} level="M" />
+                <QRCodeSVG value={getVerifyLink(cert.hash)} size={64} level="M" />
               </div>
             </div>
 
@@ -157,8 +174,7 @@ export default function MyCertificates() {
                 </a>
                 <button
                   onClick={() => {
-                    const url = `${window.location.origin}/?tab=verify&hash=${cert.hash}`;
-                    navigator.clipboard.writeText(url);
+                    navigator.clipboard.writeText(getVerifyLink(cert.hash));
                     alert("Share link copied!");
                   }}
                   className="cert-share-link"

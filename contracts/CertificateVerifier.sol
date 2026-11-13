@@ -44,7 +44,7 @@ contract CertificateVerifier
         string calldata issuedBy
     ) external {
         // Prevent duplicate certificate hashes
-        require(issuers[hash] == address(0), "Certificate hash already exists");
+        require(issuers[hash] == address(0), "Hash already exists");
         
         // Record the wallet address of the issuer
         issuers[hash] = msg.sender;
@@ -66,8 +66,8 @@ contract CertificateVerifier
      * @dev Only the wallet that originally issued the certificate can revoke it
      */
     function revokeCertificate(string calldata hash) external {
-        require(issuers[hash] == msg.sender, "Only the original issuer can revoke this certificate");
-        require(!revoked[hash], "Certificate is already revoked");
+        require(issuers[hash] == msg.sender, "Only the issuer can revoke");
+        require(!revoked[hash], "Already revoked");
         
         revoked[hash] = true;
         emit CertificateRevoked(hash, msg.sender);

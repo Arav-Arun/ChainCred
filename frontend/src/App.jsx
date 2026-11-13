@@ -6,10 +6,8 @@
 import { useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { WagmiProvider } from "wagmi";
-import { sepolia } from "wagmi/chains";
 import "@rainbow-me/rainbowkit/styles.css";
 import {
-  getDefaultConfig,
   RainbowKitProvider,
   ConnectButton,
   darkTheme,
@@ -19,12 +17,7 @@ import Home from "./Home";
 import IssueCertificate from "./IssueCertificate";
 import VerifyCertificate from "./VerifyCertificate";
 import MyCertificates from "./MyCertificates";
-
-const config = getDefaultConfig({
-  appName: "ChainCred",
-  projectId: import.meta.env.VITE_WC_PROJECT_ID,
-  chains: [sepolia],
-});
+import { wagmiConfig } from "./wagmiConfig";
 
 const queryClient = new QueryClient();
 
@@ -175,7 +168,7 @@ function AppContent() {
 
 export default function App() {
   return (
-    <WagmiProvider config={config}>
+    <WagmiProvider config={wagmiConfig}>
       <QueryClientProvider client={queryClient}>
         <RainbowKitProvider
           theme={darkTheme({
