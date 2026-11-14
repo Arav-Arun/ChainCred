@@ -51,6 +51,7 @@ function AppContent() {
               <button
                 key={t.id}
                 onClick={() => setTab(t.id)}
+                aria-current={tab === t.id ? "page" : undefined}
                 className={`nav-btn ${tab === t.id ? "nav-btn-active" : "nav-btn-inactive"}`}
               >
                 {t.label}
@@ -134,6 +135,7 @@ function AppContent() {
               <button
                 key={t.id}
                 onClick={() => setTab(t.id)}
+                aria-current={tab === t.id ? "page" : undefined}
                 className={`mobile-nav-btn ${tab === t.id ? "nav-btn-active" : "mobile-nav-btn-inactive"}`}
               >
                 {t.label}

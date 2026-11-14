@@ -145,7 +145,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .desktop-nav { @apply hidden md:flex items-center gap-1; }
 .nav-btn { @apply px-3 py-1 text-xs font-medium uppercase tracking-wider transition-colors cursor-pointer; }
-.nav-btn-active { @apply text-white; }
+.nav-btn-active { @apply text-white underline decoration-2 underline-offset-[6px]; }
 .nav-btn-inactive { @apply text-white hover:text-white; }
 
 .mobile-nav-container { @apply md:hidden border-t border-[#1a1a1a]; }
