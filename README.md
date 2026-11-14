@@ -1,20 +1,22 @@
 ![ChainCred Banner](./frontend/assets/banner.png)
 
+**Live app: [chaincred.aravarun.in](https://chaincred.aravarun.in)** · **Contract: [`0x65c6…7F36` on Sepolia Etherscan](https://sepolia.etherscan.io/address/0x65c68a3ae2D7b09688C405dfA4FF5E655Ef57F36)**
+
 - ChainCred is a decentralized platform for issuing, verifying, and managing academic and professional credentials on the Ethereum blockchain. It eliminates the friction and fraud associated with traditional paper certificates by creating an immutable, cryptographic record of achievement.
-- Users interact with ChainCred through a sleek, modern React frontend. Institutions can connect their Web3 wallets to mint tamper-proof digital certificates directly on-chain.  Once issued, students and employers can instantly verify the authenticity of a credential using a simple QR code or transaction hash without relying on any centralized verification authority.
-- The platform handles everything from certificate issuance to on-chain revocation and features a unified dashboard for issuers to manage their entire history. The project is fully open-source, deployed on the Ethereum Sepolia Testnet.
+- Users interact with ChainCred through a sleek, modern React frontend. Institutions can connect their Web3 wallets to issue tamper-proof digital certificates directly on-chain. Once issued, students and employers can instantly verify the authenticity of a credential by scanning its QR code, opening its share link, pasting its certificate hash, or re-entering the certificate details, without relying on any centralized verification authority.
+- The platform handles everything from certificate issuance to on-chain revocation and features a unified dashboard for issuers to manage their entire history. The source code is public on GitHub, and the contract is deployed on the Ethereum Sepolia Testnet.
 
 ---
 
 ## Tech Stack
 
 ### Core & Blockchain
-- **Solidity**: Custom smart contracts (`CertificateVerifier.sol`) handling the core logic for issuing, verifying, and revoking certificates.
+- **Solidity**: Custom smart contract (`CertificateVerifier.sol`) handling the core logic for issuing, verifying, and revoking certificates.
 - **Ethereum (Sepolia Testnet)**: The base layer network for immutable data storage and decentralized consensus.
-- **Ethers.js / Wagmi**: Handles all RPC communication, contract interactions, and event listening from the frontend.
+- **Ethers.js / Wagmi**: Ethers.js handles contract calls and event-log queries; Wagmi provides the connected wallet used to sign transactions.
 
 ### Frontend & UI
-- **React**: Lightning-fast build tooling and component-based UI architecture.
+- **React + Vite**: Component-based UI architecture with lightning-fast build tooling.
 - **Tailwind CSS v4**: Utility-first CSS framework combined with custom semantic classes for a premium, dark-mode-first aesthetic.
 - **RainbowKit**: Seamless, out-of-the-box Web3 wallet connection providing a frictionless UX for both desktop and mobile users.
 
@@ -57,9 +59,9 @@ flowchart TD
 
     %% Blockchain Network
     subgraph BlockchainLayer ["Ethereum Sepolia Testnet"]
-        RPC["RPC Node<br/>(Alchemy/Infura)"]:::blockchain
+        RPC["RPC Node<br/>(Wallet RPC for writes,<br/>public RPC for reads)"]:::blockchain
         subgraph SmartContract ["CertificateVerifier.sol"]
-            SC_Issue["issueCertificate()"]:::blockchain
+            SC_Issue["storeCertificate()"]:::blockchain
             SC_Revoke["revokeCertificate()"]:::blockchain
             SC_Verify["verifyCertificate()"]:::blockchain
             SC_Events[/"emit CertificateStored"/]:::blockchain
@@ -76,8 +78,8 @@ flowchart TD
     RPC -- "4. Execute" --> SC_Issue
     RPC -- "4. Execute" --> SC_Revoke
     SC_Issue -- "5. Store Data" --> SC_Events
-    SC_Revoke -- "5. Update Status" --> SC_Events
-    
+    SC_Revoke -- "5. Mark Revoked" --> SC_Events
+
     %% Flow: Verification
     UI_Verify -- "Query Hash" --> Wagmi
     Wagmi -- "Read State" --> RPC
@@ -86,30 +88,50 @@ flowchart TD
 
     %% Flow: My Certificates History
     UI_MyCerts -- "Fetch History" --> Wagmi
-    Wagmi -- "Filter Logs" --> SC_Events
-    SC_Events -. "Event Stream" .-> UI_MyCerts
+    Wagmi -- "Filter Logs by Issuer" --> SC_Events
+    SC_Events -. "Event Logs" .-> UI_MyCerts
 
     %% External Links
     SC_Issue -. "View Receipt" .-> Etherscan
     SC_Revoke -. "View Receipt" .-> Etherscan
 ```
 
-- **Issuer Application**: The institution connects via RainbowKit to sign transactions. Data entered is securely hashed on the client-side before submission.
-- **Smart Contract Execution**: The Solidity contract on the Sepolia Testnet receives the hash. Instead of storing bulky strings, it uses highly gas-efficient `emit CertificateStored` event logs.
-- **Verification Portal**: A public user scans a QR code or enters a hash. The React frontend queries the Ethereum RPC node, reading the contract's state to instantly return the cryptographic validity and active/revoked status.
-- **State Management**: The frontend listens and syncs in real-time with blockchain events, mapping raw hexadecimal logs into a human-readable dashboard.
+- **Issuer Application**: The institution connects via RainbowKit to sign transactions (Sepolia only; the app prompts a network switch if needed). The certificate fields (student name, course, date, issuing authority) are combined and hashed with SHA-256 in the browser.
+- **Smart Contract Execution**: The contract stores only the hash → issuer address mapping in contract storage. The full certificate details are emitted in a gas-efficient `CertificateStored` event log rather than kept in storage. Event logs are public, so anyone can read the details of an issued certificate.
+- **Verification Portal**: A public user scans a QR code, opens a share link, pastes a hash, or re-enters the certificate details. The frontend calls the contract through a public RPC node (no wallet needed) and shows whether the certificate is valid, revoked, or not found, along with its details.
+- **History Dashboard**: When an issuer opens My Certificates (or presses Refresh), the frontend queries `CertificateStored` logs filtered by their wallet address and maps them into a human-readable dashboard.
 
 ---
 
 ## Key Features
 
 - **Tamper-Proof Issuance**: Institutions can issue certificates that are permanently anchored to the Ethereum blockchain. Data is immutable and cannot be altered once confirmed.
-- **Instant Cryptographic Verification**: Anyone can verify a credential in seconds using the certificate's unique hash or by scanning its auto-generated QR code.
-- **On-Chain Revocation**: If a certificate is issued in error or compromised, the issuing address has the exclusive authority to permanently mark the hash as revoked on-chain.
-- **My Certificates Dashboard**: A dashboard where issuers can view all their issued credentials, check live validity status (Active/Revoked), and monitor block confirmations.
-- **Zero Friction Wallet Connect**: Powered by RainbowKit, users can connect via MetaMask, Coinbase Wallet, WalletConnect, and more with a single click.
-- **Etherscan Integration**: 1-click links to view raw transaction data and block history directly on the Sepolia Etherscan block explorer.
-- **Decentralized Storage Approach**: Instead of bloating state, ChainCred utilizes Ethereum event logs (`emit CertificateStored`) for highly gas-efficient data indexing and retrieval.
+- **Instant Cryptographic Verification**: Anyone can verify a credential in seconds using the certificate's unique hash, its share link, or by scanning its auto-generated QR code (which opens the verification page directly).
+- **On-Chain Revocation**: If a certificate is issued in error or compromised, the issuing address has the exclusive authority to permanently mark the hash as revoked on-chain. Verifiers then see it as revoked.
+- **My Certificates Dashboard**: A dashboard where issuers can view all their issued credentials, check live validity status (Active/Revoked), see the block each was issued in, and revoke certificates.
+- **Zero Friction Wallet Connect**: Powered by RainbowKit, users can connect via MetaMask, Rainbow, Base Account (Coinbase), WalletConnect, and more with a single click.
+- **Etherscan Integration**: 1-click links to view each issuance transaction and the contract directly on the Sepolia Etherscan block explorer.
+- **Gas-Efficient Storage**: Instead of bloating contract storage, ChainCred keeps certificate details in Ethereum event logs (`emit CertificateStored`) and stores only the hash → issuer mapping and revocation flag on-chain.
+
+---
+
+## Run Locally
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Create `frontend/.env` with:
+
+| Variable | Required | Description |
+| --- | --- | --- |
+| `VITE_CONTRACT_ADDRESS` | Yes | Deployed `CertificateVerifier` address on Sepolia |
+| `VITE_WC_PROJECT_ID` | Yes | WalletConnect / Reown project ID from [cloud.reown.com](https://cloud.reown.com) (add your domains to its allowlist) |
+| `VITE_SEPOLIA_RPC_URL` | No | Sepolia RPC for read-only calls. Must allow `eth_getLogs` over large block ranges. Defaults to `https://sepolia.gateway.tenderly.co` |
+
+All `VITE_` variables are bundled into the frontend and visible to anyone, so never put private keys or secrets in them.
 
 ---
 
