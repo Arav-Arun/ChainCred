@@ -1,26 +1,8 @@
-![ChainCred Banner](./frontend/assets/banner.png)
-
-**Live app: [chaincred.aravarun.in](https://chaincred.aravarun.in)** · **Contract: [`0x65c6…7F36` on Sepolia Etherscan](https://sepolia.etherscan.io/address/0x65c68a3ae2D7b09688C405dfA4FF5E655Ef57F36)**
+# ChainCred
 
 - ChainCred is a decentralized platform for issuing, verifying, and managing academic and professional credentials on the Ethereum blockchain. It eliminates the friction and fraud associated with traditional paper certificates by creating an immutable, cryptographic record of achievement.
 - Users interact with ChainCred through a sleek, modern React frontend. Institutions can connect their Web3 wallets to issue tamper-proof digital certificates directly on-chain. Once issued, students and employers can instantly verify the authenticity of a credential by scanning its QR code, opening its share link, pasting its certificate hash, or re-entering the certificate details, without relying on any centralized verification authority.
 - The platform handles everything from certificate issuance to on-chain revocation and features a unified dashboard for issuers to manage their entire history. The source code is public on GitHub, and the contract is deployed on the Ethereum Sepolia Testnet.
-
----
-
-## Tech Stack
-
-### Core & Blockchain
-- **Solidity**: Custom smart contract (`CertificateVerifier.sol`) handling the core logic for issuing, verifying, and revoking certificates.
-- **Ethereum (Sepolia Testnet)**: The base layer network for immutable data storage and decentralized consensus.
-- **Ethers.js / Wagmi**: Ethers.js handles contract calls and event-log queries; Wagmi provides the connected wallet used to sign transactions.
-
-### Frontend & UI
-- **React + Vite**: Component-based UI architecture with lightning-fast build tooling.
-- **Tailwind CSS v4**: Utility-first CSS framework combined with custom semantic classes for a premium, dark-mode-first aesthetic.
-- **RainbowKit**: Seamless, out-of-the-box Web3 wallet connection providing a frictionless UX for both desktop and mobile users.
-
----
 
 ## Screenshots
 
@@ -112,26 +94,6 @@ flowchart TD
 - **Zero Friction Wallet Connect**: Powered by RainbowKit, users can connect via MetaMask, Rainbow, Base Account (Coinbase), WalletConnect, and more with a single click.
 - **Etherscan Integration**: 1-click links to view each issuance transaction and the contract directly on the Sepolia Etherscan block explorer.
 - **Gas-Efficient Storage**: Instead of bloating contract storage, ChainCred keeps certificate details in Ethereum event logs (`emit CertificateStored`) and stores only the hash → issuer mapping and revocation flag on-chain.
-
----
-
-## Run Locally
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-Create `frontend/.env` with:
-
-| Variable | Required | Description |
-| --- | --- | --- |
-| `VITE_CONTRACT_ADDRESS` | Yes | Deployed `CertificateVerifier` address on Sepolia |
-| `VITE_WC_PROJECT_ID` | Yes | WalletConnect / Reown project ID from [cloud.reown.com](https://cloud.reown.com) (add your domains to its allowlist) |
-| `VITE_SEPOLIA_RPC_URL` | No | Sepolia RPC for read-only calls. Must allow `eth_getLogs` over large block ranges. Defaults to `https://sepolia.gateway.tenderly.co` |
-
-All `VITE_` variables are bundled into the frontend and visible to anyone, so never put private keys or secrets in them.
 
 ---
 
